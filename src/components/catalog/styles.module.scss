@@ -1,0 +1,38 @@
+.productCard {
+    margin-bottom: 20px;
+}
+.container {
+    max-width: 140px;
+    padding: 5px 15px;
+    background-color: white;
+    color: black;
+    .description {
+        min-height: 50px;
+    }
+    .img {
+        width: 100%;
+        img {
+            width: 100%;
+            height: 150px;
+        }
+    }
+    .pricing {
+        display: flex;
+        align-items: baseline;
+        .currency {
+            font-size: 16px;
+        }
+        .price {
+            font-size: 22px;
+            font-weight: 600;
+        }
+    }
+    .ratingInfo {
+        display: flex;
+        align-items: center;
+        font-size: 12px;
+        div {
+            margin-right: 5px;
+        }
+    }
+}
