@@ -1,42 +1,38 @@
-import React, { useEffect, useState } from 'react'
-import { fetchAllGoodsVanila } from 'src/api/catalog'
+import React, { useEffect, useState } from 'react';
+import { fetchAllGoodsVanila } from 'src/api/catalog';
+import MainHeader from 'src/components/layout/headers/MainHeader';
+
 // components
-import CatalogLayout from '../../components/layout/catalog/CatalogLayout'
-import MainHeader from 'src/components/layout/headers/MainHeader'
+import CatalogLayout from '../../components/layout/catalog/CatalogLayout';
 
 export interface IGood {
-    id: number,
-    title: string,
-    price: number,
-    description: string,
-    category: string,
-    image: string,
-    rating: {
-        rate: number,
-        count: number
-    }
+  id: number;
+  title: string;
+  price: number;
+  description: string;
+  category: string;
+  image: string;
+  rating: {
+    rate: number;
+    count: number;
+  };
 }
 
 export default function Main() {
   useEffect(() => {
     const fetchFunc = async () => {
-        const products = await fetchAllGoodsVanila()
-    }
-    fetchFunc()
-  },[])
+      // const products = await fetchAllGoodsVanila()
+    };
+    fetchFunc();
+  }, []);
   return (
-      <CatalogLayout
-        header={
-          <MainHeader
-          />
-        }
-        main={
-          <>
-            <main>
-                Main page is in progress
-            </main>
-          </>
-        }
-      />
-  )
+    <CatalogLayout
+      header={<MainHeader />}
+      main={
+        <>
+          <main>Main page is in progress</main>
+        </>
+      }
+    />
+  );
 }
