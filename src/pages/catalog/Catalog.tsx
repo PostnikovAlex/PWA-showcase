@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { getCategories, getGoodsFromCategory } from 'src/api/catalog';
+import { getCategories, fetchGoods } from 'src/api/catalog';
 import Header from 'src/components/layout/headers/CatalogHeader';
-
+import useGetGoods from 'src/hooks/useGetGoods'
 import CatalogItem from '../../components/catalog/CatalogItem';
 // components
 import CatalogLayout from '../../components/layout/catalog/CatalogLayout';
@@ -25,21 +25,17 @@ export interface ICategory {
 }
 
 export default function Catalog() {
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [goods, setGoods] = useState<Array<IGood> | null>(null);
   const [currentCategory, setCurrentCategory] = useState<string>('');
   const [avaliableCategories, setAvaliableCategories] = useState<Array<ICategory>>([]);
+  const { goods, isLoading, addFetchGoods, isRefetching } = useGetGoods(currentCategory);
 
   useEffect(() => {
-    async function fetchGoods() {
-      setIsLoading(true);
-      const data = await getGoodsFromCategory(currentCategory);
-      setGoods(data);
-      setIsLoading(false);
-    }
-
-    fetchGoods();
-  }, [currentCategory]);
+    window.addEventListener('scroll', (e: any) => {
+      if (window.innerHeight + e.target.documentElement.scrollTop >= e.target.documentElement.scrollHeight) {
+        addFetchGoods()
+      }
+    })
+  }, [])
 
   useEffect(() => {
     async function fetchCategories() {
@@ -53,18 +49,19 @@ export default function Catalog() {
 
     fetchCategories();
   }, []);
-
   return (
     <CatalogLayout
       header={<Header avaliableCategories={avaliableCategories} setCurrentCategory={setCurrentCategory} />}
       main={
         <>
+        {isLoading && <span>Loading...</span>}
           {goods &&
             !isLoading &&
             goods.map(good => {
               return <CatalogItem key={good.id} {...good} />;
             })}
-          {isLoading && <span>Loading...</span>}
+          
+          {isRefetching && <span>Refetching...</span>}
         </>
       }
     />
